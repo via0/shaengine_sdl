@@ -17,7 +17,7 @@ Include_Directories(
  	${SDL2_TTF_INCLUDE_DIRS}
 )
 
-file(GLOB SOURCES   src/defs.h src/structs.h src/*.c src/*.h src/*/*.c src/*/*.h)
+file(GLOB SOURCES   src/*.c src/*.h src/*/*.c src/*/*.h)
 
 SET (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
