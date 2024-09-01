@@ -12,6 +12,8 @@ int main(int argc, char* argv[]){
         app_prepareScene(&app);
         app_handleInput(&app);
 
+        app_drawShae(&app);
+
         app_presentScene(&app);
         app_finishFrame(&app); // handles delay to lock app to 60fps
     }

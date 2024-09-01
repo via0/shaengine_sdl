@@ -23,6 +23,9 @@ void app_initialize(s_app* app){
     // almost certainly isn't supported
     // on_exit(sdl_cleanup, sdlApp);
 
+    // initialize textures... maybe this should happen on map load?
+    app_loadTexture(app, "gfx/shae.png", INDEX_TEXTURE_SHAE_WALK0);
+
 }
 
 void app_prepareScene(s_app* app){
@@ -58,6 +61,28 @@ void app_finishFrame(s_app* app){
     SDL_Delay(16);
 }
 
+void app_loadTexture(s_app* app, char *filename, int index){
+    s_sdlApp* sdlApp = &app->sdlApp;
+
+    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+    
+    // Not checking for null ptr here because i'm straight!
+    sdlApp->textures[index] = IMG_LoadTexture(sdlApp->renderer, filename);
+
+}
+
+void app_drawShae(s_app* app){
+    s_sdlApp* sdlApp = &app->sdlApp;
+
+    SDL_Rect dest;
+    SDL_Texture* texture = sdlApp->textures[INDEX_TEXTURE_SHAE_WALK0];
+    dest.x = 15;
+    dest.y = 87;
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+
+    SDL_RenderCopy(sdlApp->renderer, texture, NULL, &dest);
+}
+
 void sdl_setup(s_sdlApp* sdlApp){
     int rendererFlags, windowFlags;
     rendererFlags = SDL_RENDERER_ACCELERATED;
@@ -82,6 +107,10 @@ void sdl_setup(s_sdlApp* sdlApp){
         printf("Failed to create renderer: %s\n", SDL_GetError());
         exit(1);
     }
+
+    IMG_Init(IMG_INIT_PNG);
+
+    SDL_ShowCursor(0);
 }
 
 void sdl_cleanup(s_sdlApp* sdlApp){
